@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Home-unuseds | Ananth Mahadevan</title>
-    <link>https://ananthmahadevan.com/home-unused/</link>
-      <atom:link href="https://ananthmahadevan.com/home-unused/index.xml" rel="self" type="application/rss+xml" />
+    <link>http://www.ananthmahadevan.com/home-unused/</link>
+      <atom:link href="http://www.ananthmahadevan.com/home-unused/index.xml" rel="self" type="application/rss+xml" />
     <description>Home-unuseds</description>
     <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language>
     <image>
-      <url>https://ananthmahadevan.com/media/icon_hu83a2933a4b16038170999f1c101a10c2_11917_512x512_fill_lanczos_center_3.png</url>
+      <url>http://www.ananthmahadevan.com/media/icon_hu83a2933a4b16038170999f1c101a10c2_11917_512x512_fill_lanczos_center_3.png</url>
       <title>Home-unuseds</title>
-      <link>https://ananthmahadevan.com/home-unused/</link>
+      <link>http://www.ananthmahadevan.com/home-unused/</link>
     </image>
     
     <item>
       <title>Academic Template</title>
-      <link>https://ananthmahadevan.com/home-unused/demo/</link>
+      <link>http://www.ananthmahadevan.com/home-unused/demo/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://ananthmahadevan.com/home-unused/demo/</guid>
+      <guid>http://www.ananthmahadevan.com/home-unused/demo/</guid>
       <description>&lt;h2 id=&#34;-welcome-to-the-academic-template&#34;&gt;👋 Welcome to the Academic Template&lt;/h2&gt;
 &lt;p&gt;The Wowchemy &lt;strong&gt;Academic Resumé Template&lt;/strong&gt; for Hugo empowers you to create your job-winning online resumé and showcase your academic publications.&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://academic-demo.netlify.app&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Check out the latest demo&lt;/a&gt; of what you&amp;rsquo;ll get in less than 10 minutes, or &lt;a href=&#34;https://wowchemy.com/user-stories/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;view the showcase&lt;/a&gt;.&lt;/p&gt;
@@ -47,65 +47,65 @@
     
     <item>
       <title>Skills</title>
-      <link>https://ananthmahadevan.com/home-unused/skills/</link>
+      <link>http://www.ananthmahadevan.com/home-unused/skills/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://ananthmahadevan.com/home-unused/skills/</guid>
+      <guid>http://www.ananthmahadevan.com/home-unused/skills/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Experience</title>
-      <link>https://ananthmahadevan.com/home-unused/experience/</link>
+      <link>http://www.ananthmahadevan.com/home-unused/experience/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://ananthmahadevan.com/home-unused/experience/</guid>
+      <guid>http://www.ananthmahadevan.com/home-unused/experience/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Accomplish&amp;shy;ments</title>
-      <link>https://ananthmahadevan.com/home-unused/accomplishments/</link>
+      <link>http://www.ananthmahadevan.com/home-unused/accomplishments/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://ananthmahadevan.com/home-unused/accomplishments/</guid>
+      <guid>http://www.ananthmahadevan.com/home-unused/accomplishments/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Recent Posts</title>
-      <link>https://ananthmahadevan.com/home-unused/posts/</link>
+      <link>http://www.ananthmahadevan.com/home-unused/posts/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://ananthmahadevan.com/home-unused/posts/</guid>
+      <guid>http://www.ananthmahadevan.com/home-unused/posts/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Projects</title>
-      <link>https://ananthmahadevan.com/home-unused/projects/</link>
+      <link>http://www.ananthmahadevan.com/home-unused/projects/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://ananthmahadevan.com/home-unused/projects/</guid>
+      <guid>http://www.ananthmahadevan.com/home-unused/projects/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Recent &amp; Upcoming Talks</title>
-      <link>https://ananthmahadevan.com/home-unused/talks/</link>
+      <link>http://www.ananthmahadevan.com/home-unused/talks/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://ananthmahadevan.com/home-unused/talks/</guid>
+      <guid>http://www.ananthmahadevan.com/home-unused/talks/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Featured Publications</title>
-      <link>https://ananthmahadevan.com/home-unused/featured/</link>
+      <link>http://www.ananthmahadevan.com/home-unused/featured/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://ananthmahadevan.com/home-unused/featured/</guid>
+      <guid>http://www.ananthmahadevan.com/home-unused/featured/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Recent Publications</title>
-      <link>https://ananthmahadevan.com/home-unused/publications/</link>
+      <link>http://www.ananthmahadevan.com/home-unused/publications/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://ananthmahadevan.com/home-unused/publications/</guid>
+      <guid>http://www.ananthmahadevan.com/home-unused/publications/</guid>
       <description>&lt;div class=&#34;alert alert-note&#34;&gt;
   &lt;div&gt;
     Quickly discover relevant content by &lt;a href=&#34;./publication/&#34;&gt;filtering publications&lt;/a&gt;.
@@ -116,17 +116,17 @@
     
     <item>
       <title>Popular Topics</title>
-      <link>https://ananthmahadevan.com/home-unused/tags/</link>
+      <link>http://www.ananthmahadevan.com/home-unused/tags/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://ananthmahadevan.com/home-unused/tags/</guid>
+      <guid>http://www.ananthmahadevan.com/home-unused/tags/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Contact</title>
-      <link>https://ananthmahadevan.com/home-unused/contact/</link>
+      <link>http://www.ananthmahadevan.com/home-unused/contact/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://ananthmahadevan.com/home-unused/contact/</guid>
+      <guid>http://www.ananthmahadevan.com/home-unused/contact/</guid>
       <description></description>
     </item>
     
