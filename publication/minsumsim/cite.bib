@@ -1,8 +1,16 @@
-@article{ordozgoiti2022provable,
-  title={Provable randomized rounding for minimum-similarity diversification},
-  author={Ordozgoiti, Bruno and Mahadevan, Ananth and Matakos, Antonis and Gionis, Aristides},
-  journal={Data Mining and Knowledge Discovery},
-  pages={1--30},
-  year={2022},
-  publisher={Springer}
+@article{ordozgoiti2022ProvableRandomizedRounding,
+  title = {Provable Randomized Rounding for Minimum-Similarity Diversification},
+  author = {Ordozgoiti, Bruno and Mahadevan, Ananth and Matakos, Antonis and Gionis, Aristides},
+  year = {2022},
+  month = mar,
+  journal = {Data Mining and Knowledge Discovery},
+  volume = {36},
+  number = {2},
+  pages = {709--738},
+  issn = {1573-756X},
+  doi = {10.1007/s10618-021-00811-2},
+  abstract = {When searching for information in a data collection, we are often interested not only in finding relevant items, but also in assembling a diverse set, so as to explore different concepts that are present in the data. This problem has been researched extensively. However, finding a set of items with minimal pairwise similarities can be computationally challenging, and most existing works striving for quality guarantees assume that item relatedness is measured by a distance function. Given the widespread use of similarity functions in many domains, we believe this to be an important gap in the literature. In this paper we study the problem of finding a diverse set of items, when item relatedness is measured by a similarity function. We formulate the diversification task using a flexible, broadly applicable minimization objective, consisting of the sum of pairwise similarities of the selected items and a relevance penalty term. To find good solutions we adopt a randomized rounding strategy, which is challenging to analyze because of the cardinality constraint present in our formulation. Even though this obstacle can be overcome using dependent rounding, we show that it is possible to obtain provably good solutions using an independent approach, which is faster, simpler to implement and completely parallelizable. Our analysis relies on a novel bound for the ratio of Poisson-Binomial densities, which is of independent interest and has potential implications for other combinatorial-optimization problems. We leverage this result to design an efficient randomized algorithm that provides a lower-order additive approximation guarantee. We validate our method using several benchmark datasets, and show that it consistently outperforms the greedy approaches that are commonly used in the literature.}
 }
+
+
+
