@@ -1,18 +1,1 @@
-{
-  "name": "Ananth Mahadevan",
-  "short_name": "Ananth Mahadevan",
-  "lang": "en-us",
-  "theme_color": "#1565c0",
-  "background_color": "#1565c0",
-  "icons": [{
-    "src": "/media/icon_hu83a2933a4b16038170999f1c101a10c2_11917_192x192_fill_lanczos_center_3.png",
-    "sizes": "192x192",
-    "type": "image/png"
-    }, {
-    "src": "/media/icon_hu83a2933a4b16038170999f1c101a10c2_11917_512x512_fill_lanczos_center_3.png",
-    "sizes": "512x512",
-    "type": "image/png"
-     }],
-  "display": "standalone",
-  "start_url": "/?utm_source=web_app_manifest"
-}
+{"name":"Ananth Mahadevan","short_name":"Ananth Mahadevan","lang":"en-us","theme_color":"#1565c0","background_color":"#1565c0","icons":[{"src":"/media/icon_hu83a2933a4b16038170999f1c101a10c2_11917_192x192_fill_lanczos_center_3.png","sizes":"192x192","type":"image/png"},{"src":"/media/icon_hu83a2933a4b16038170999f1c101a10c2_11917_512x512_fill_lanczos_center_3.png","sizes":"512x512","type":"image/png"}],"display":"standalone","start_url":"/?utm_source=web_app_manifest"}
