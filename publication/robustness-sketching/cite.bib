@@ -1,8 +1,17 @@
-@inproceedings{mahadevan2022robustness,
- author = {Mahadevan, Ananth and Merchant, Arpit and Wang, Yanhao and Mathioudakis, Michael},
- booktitle = {International Conference on Information and Knowledge Management},
- organization = {Association for Computing Machinery},
- title = {Robustness of Sketched Linear Classifiers to Adversarial Attacks},
- year = {2022}
+@inproceedings{10.1145/3511808.3557687,
+author = {Mahadevan, Ananth and Merchant, Arpit and Wang, Yanhao and Mathioudakis, Michael},
+title = {Robustness of Sketched Linear Classifiers to Adversarial Attacks},
+year = {2022},
+isbn = {9781450392365},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3511808.3557687},
+doi = {10.1145/3511808.3557687},
+abstract = {Linear classifiers are well-known to be vulnerable to adversarial attacks: they may predict incorrect labels for input data that are adversarially modified with small perturbations. However, this phenomenon has not been properly understood in the context of sketch-based linear classifiers, typically used in memory-constrained paradigms, which rely on random projections of the features for model compression. In this paper, we propose novel Fast-Gradient-Sign Method (FGSM) attacks for sketched classifiers in full, partial, and black-box information settings with regards to their internal parameters. We perform extensive experiments on the MNIST dataset to characterize their robustness as a function of perturbation budget. Our results suggest that, in the full-information setting, these classifiers are less accurate on unaltered input than their uncompressed counterparts but just as susceptible to adversarial attacks. But in more realistic partial and black-box information settings, sketching improves robustness while having lower memory footprint.},
+booktitle = {Proceedings of the 31st ACM International Conference on Information &amp; Knowledge Management},
+pages = {4319–4323},
+numpages = {5},
+keywords = {adversarial machine learning, robustness, sketching},
+location = {Atlanta, GA, USA},
+series = {CIKM '22}
 }
-
