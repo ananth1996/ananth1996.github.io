@@ -1,8 +1,13 @@
-@misc{mahadevan2023costeffective,
-    title={Cost-Effective Retraining of Machine Learning Models},
-    author={Ananth Mahadevan and Michael Mathioudakis},
-    year={2023},
-    eprint={2310.04216},
-    archivePrefix={arXiv},
-    primaryClass={cs.LG}
+@article{MAHADEVAN2024111610,
+title = {Cost-aware retraining for machine learning},
+journal = {Knowledge-Based Systems},
+volume = {293},
+pages = {111610},
+year = {2024},
+issn = {0950-7051},
+doi = {https://doi.org/10.1016/j.knosys.2024.111610},
+url = {https://www.sciencedirect.com/science/article/pii/S0950705124002454},
+author = {Ananth Mahadevan and Michael Mathioudakis},
+keywords = {Machine learning, Resource-aware computing},
+abstract = {Retraining a machine learning (ML) model is essential for maintaining its performance as the data change over time. However, retraining is also costly, as it typically requires re-processing the entire dataset. As a result, a trade-off arises: on the one hand, retraining an ML model too frequently incurs unnecessary computing costs; on the other hand, not retraining frequently enough leads to stale ML models and incurs a cost in loss of accuracy. To resolve this trade-off, we envision ML systems that make automated and cost-optimal decisions about when to retrain an ML model. In this work, we study the decision problem of whether to retrain or keep an existing ML model based on the data, the model, and the predictive queries answered by the model. Crucially, we consider the costs associated with each decision and aim to optimize the trade-off. Our main contribution is a Cost-Aware Retraining Algorithm, CARA, which optimizes the trade-off over streams of data and queries. To explore the performance of CARA, we first analyze synthetic datasets and demonstrate that CARA can adapt to different data drifts and retraining costs while performing similarly to an optimal retrospective algorithm. Subsequently, we experiment with real-world datasets and demonstrate that CARA has better accuracy than drift detection baselines while making fewer retraining decisions, thus incurring lower total costs.}
 }
