@@ -1,55 +1,273 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts | Ananth Mahadevan</title><link>http://www.ananthmahadevan.com/post/</link><atom:link href="http://www.ananthmahadevan.com/post/index.xml" rel="self" type="application/rss+xml"/><description>Posts</description><generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Sun, 13 Dec 2020 00:00:00 +0000</lastBuildDate><image><url>http://www.ananthmahadevan.com/media/icon_hu83a2933a4b16038170999f1c101a10c2_11917_512x512_fill_lanczos_center_3.png</url><title>Posts</title><link>http://www.ananthmahadevan.com/post/</link></image><item><title>Welcome to Wowchemy, the website builder for Hugo</title><link>http://www.ananthmahadevan.com/post/getting-started/</link><pubDate>Sun, 13 Dec 2020 00:00:00 +0000</pubDate><guid>http://www.ananthmahadevan.com/post/getting-started/</guid><description>&lt;h2 id="overview">Overview&lt;/h2>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts | Ananth Mahadevan</title><link>http://www.ananthmahadevan.com/post/</link><atom:link href="http://www.ananthmahadevan.com/post/index.xml" rel="self" type="application/rss+xml"/><description>Posts</description><generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Mon, 12 Feb 2024 00:00:00 +0000</lastBuildDate><image><url>http://www.ananthmahadevan.com/media/icon_hu83a2933a4b16038170999f1c101a10c2_11917_512x512_fill_lanczos_center_3.png</url><title>Posts</title><link>http://www.ananthmahadevan.com/post/</link></image><item><title>Scaling Up Constraint-Based Diverse Sampling</title><link>http://www.ananthmahadevan.com/post/improved-fmmds/</link><pubDate>Mon, 12 Feb 2024 00:00:00 +0000</pubDate><guid>http://www.ananthmahadevan.com/post/improved-fmmds/</guid><description>&lt;h1 id="improved-fmmd-s">Improved FMMD-S&lt;/h1>
+&lt;p>An improved implementation of the FMMD-S algorithm from the paper:&lt;/p>
+&lt;blockquote>
+&lt;p>Wang, Y., Mathioudakis, M., Li, J., &amp;amp; Fabbri, F. (2023). Max-Min Diversification with Fairness Constraints: Exact and Approximation Algorithms. In Proceedings of the 2023 SIAM International Conference on Data Mining (SDM) (pp. 91–99). Society for Industrial and Applied Mathematics. &lt;a href="https://doi.org/10.1137/1.9781611977653.ch11" target="_blank" rel="noopener">https://doi.org/10.1137/1.9781611977653.ch11&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="table-of-contents">Table of Contents&lt;/h2>
+&lt;ul>
+&lt;li>&lt;a href="#improved-fmmd-s">Improved FMMD-S&lt;/a>
+&lt;ul>
+&lt;li>&lt;a href="#table-of-contents">Table of Contents&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#algorithm-overview">Algorithm Overview&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#setup">Setup&lt;/a>
+&lt;ul>
+&lt;li>&lt;a href="#python">Python&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#gurobi">Gurobi&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#cython">Cython&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="#balanced-sampling">Balanced Sampling&lt;/a>
+&lt;ul>
+&lt;li>&lt;a href="#old-fmmd-s-implementation-bottlenecks">Old FMMD-S implementation Bottlenecks&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="#speedup-over-original-implementation">Speedup over original Implementation&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#when-to-parallelize">When to parallelize?&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#full-experiment-results">Full Experiment Results&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#limitations-and-future-updates">Limitations and Future Updates&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="algorithm-overview">Algorithm Overview&lt;/h2>
+&lt;p>The FMMD-S algorithm described in the paper has the following four steps:&lt;/p>
 &lt;ol>
-&lt;li>The Wowchemy website builder for Hugo, along with its starter templates, is designed for professional creators, educators, and teams/organizations - although it can be used to create any kind of site&lt;/li>
-&lt;li>The template can be modified and customised to suit your needs. It&amp;rsquo;s a good platform for anyone looking to take control of their data and online identity whilst having the convenience to start off with a &lt;strong>no-code solution (write in Markdown and customize with YAML parameters)&lt;/strong> and having &lt;strong>flexibility to later add even deeper personalization with HTML and CSS&lt;/strong>&lt;/li>
-&lt;li>You can work with all your favourite tools and apps with hundreds of plugins and integrations to speed up your workflows, interact with your readers, and much more&lt;/li>
+&lt;li>Obtain a greedy solution with &lt;code>k&lt;/code> items using the Gonzales algorithm without regard for group constraints&lt;/li>
+&lt;li>For each group run the Gonzales algorithm to obtain a coreset and a diversity threshold&lt;/li>
+&lt;li>Creates a coreset graph where edges signify the distance between items are lower than the diversity threshold&lt;/li>
+&lt;li>Create the MIS problem using the coreset graph and solve using ILP solver&lt;/li>
+&lt;li>If solution is infeasible decrease diversity threshold and go to step 2, else return solution&lt;/li>
 &lt;/ol>
-&lt;p>&lt;a href="https://wowchemy.com" target="_blank" rel="noopener">
-&lt;figure >
-&lt;div class="d-flex justify-content-center">
-&lt;div class="w-100" >&lt;img src="https://raw.githubusercontent.com/wowchemy/wowchemy-hugo-modules/main/starters/academic/preview.png" alt="The template is mobile first with a responsive design to ensure that your site looks stunning on every device." loading="lazy" data-zoomable />&lt;/div>
-&lt;/div>&lt;/figure>
-&lt;/a>&lt;/p>
-&lt;h2 id="get-started">Get Started&lt;/h2>
-&lt;ul>
-&lt;li>👉 &lt;a href="https://wowchemy.com/templates/" target="_blank" rel="noopener">&lt;strong>Create a new site&lt;/strong>&lt;/a>&lt;/li>
-&lt;li>📚 &lt;a href="https://wowchemy.com/docs/" target="_blank" rel="noopener">&lt;strong>Personalize your site&lt;/strong>&lt;/a>&lt;/li>
-&lt;li>💬 &lt;a href="https://discord.gg/z8wNYzb" target="_blank" rel="noopener">Chat with the &lt;strong>Wowchemy community&lt;/strong>&lt;/a> or &lt;a href="https://discourse.gohugo.io" target="_blank" rel="noopener">&lt;strong>Hugo community&lt;/strong>&lt;/a>&lt;/li>
-&lt;li>🐦 Twitter: &lt;a href="https://twitter.com/wowchemy" target="_blank" rel="noopener">@wowchemy&lt;/a> &lt;a href="https://twitter.com/GeorgeCushen" target="_blank" rel="noopener">@GeorgeCushen&lt;/a> &lt;a href="https://twitter.com/search?q=%23MadeWithWowchemy&amp;amp;src=typed_query" target="_blank" rel="noopener">#MadeWithWowchemy&lt;/a>&lt;/li>
-&lt;li>💡 &lt;a href="https://github.com/wowchemy/wowchemy-hugo-themes/issues" target="_blank" rel="noopener">Request a &lt;strong>feature&lt;/strong> or report a &lt;strong>bug&lt;/strong> for &lt;em>Wowchemy&lt;/em>&lt;/a>&lt;/li>
-&lt;li>⬆️ &lt;strong>Updating Wowchemy?&lt;/strong> View the &lt;a href="https://wowchemy.com/docs/hugo-tutorials/update/" target="_blank" rel="noopener">Update Tutorial&lt;/a> and &lt;a href="https://wowchemy.com/updates/" target="_blank" rel="noopener">Release Notes&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;h2 id="crowd-funded-open-source-software">Crowd-funded open-source software&lt;/h2>
-&lt;p>To help us develop this template and software sustainably under the MIT license, we ask all individuals and businesses that use it to help support its ongoing maintenance and development via sponsorship.&lt;/p>
-&lt;h3 id="-click-here-to-become-a-sponsor-and-help-support-wowchemys-future-httpswowchemycomsponsor">&lt;a href="https://wowchemy.com/sponsor/" target="_blank" rel="noopener">❤️ Click here to become a sponsor and help support Wowchemy&amp;rsquo;s future ❤️&lt;/a>&lt;/h3>
-&lt;p>As a token of appreciation for sponsoring, you can &lt;strong>unlock &lt;a href="https://wowchemy.com/sponsor/" target="_blank" rel="noopener">these&lt;/a> awesome rewards and extra features 🦄✨&lt;/strong>&lt;/p>
-&lt;h2 id="ecosystem">Ecosystem&lt;/h2>
-&lt;ul>
-&lt;li>&lt;strong>&lt;a href="https://github.com/wowchemy/hugo-academic-cli" target="_blank" rel="noopener">Hugo Academic CLI&lt;/a>:&lt;/strong> Automatically import publications from BibTeX&lt;/li>
-&lt;/ul>
-&lt;h2 id="inspiration">Inspiration&lt;/h2>
-&lt;p>&lt;a href="https://academic-demo.netlify.com/" target="_blank" rel="noopener">Check out the latest &lt;strong>demo&lt;/strong>&lt;/a> of what you&amp;rsquo;ll get in less than 10 minutes, or &lt;a href="https://wowchemy.com/user-stories/" target="_blank" rel="noopener">view the &lt;strong>showcase&lt;/strong>&lt;/a> of personal, project, and business sites.&lt;/p>
-&lt;h2 id="features">Features&lt;/h2>
-&lt;ul>
-&lt;li>&lt;strong>Page builder&lt;/strong> - Create &lt;em>anything&lt;/em> with &lt;a href="https://wowchemy.com/docs/page-builder/" target="_blank" rel="noopener">&lt;strong>widgets&lt;/strong>&lt;/a> and &lt;a href="https://wowchemy.com/docs/content/writing-markdown-latex/" target="_blank" rel="noopener">&lt;strong>elements&lt;/strong>&lt;/a>&lt;/li>
-&lt;li>&lt;strong>Edit any type of content&lt;/strong> - Blog posts, publications, talks, slides, projects, and more!&lt;/li>
-&lt;li>&lt;strong>Create content&lt;/strong> in &lt;a href="https://wowchemy.com/docs/content/writing-markdown-latex/" target="_blank" rel="noopener">&lt;strong>Markdown&lt;/strong>&lt;/a>, &lt;a href="https://wowchemy.com/docs/import/jupyter/" target="_blank" rel="noopener">&lt;strong>Jupyter&lt;/strong>&lt;/a>, or &lt;a href="https://wowchemy.com/docs/install-locally/" target="_blank" rel="noopener">&lt;strong>RStudio&lt;/strong>&lt;/a>&lt;/li>
-&lt;li>&lt;strong>Plugin System&lt;/strong> - Fully customizable &lt;a href="https://wowchemy.com/docs/customization/" target="_blank" rel="noopener">&lt;strong>color&lt;/strong> and &lt;strong>font themes&lt;/strong>&lt;/a>&lt;/li>
-&lt;li>&lt;strong>Display Code and Math&lt;/strong> - Code highlighting and &lt;a href="https://en.wikibooks.org/wiki/LaTeX/Mathematics" target="_blank" rel="noopener">LaTeX math&lt;/a> supported&lt;/li>
-&lt;li>&lt;strong>Integrations&lt;/strong> - &lt;a href="https://analytics.google.com" target="_blank" rel="noopener">Google Analytics&lt;/a>, &lt;a href="https://disqus.com" target="_blank" rel="noopener">Disqus commenting&lt;/a>, Maps, Contact Forms, and more!&lt;/li>
-&lt;li>&lt;strong>Beautiful Site&lt;/strong> - Simple and refreshing one page design&lt;/li>
-&lt;li>&lt;strong>Industry-Leading SEO&lt;/strong> - Help get your website found on search engines and social media&lt;/li>
-&lt;li>&lt;strong>Media Galleries&lt;/strong> - Display your images and videos with captions in a customizable gallery&lt;/li>
-&lt;li>&lt;strong>Mobile Friendly&lt;/strong> - Look amazing on every screen with a mobile friendly version of your site&lt;/li>
-&lt;li>&lt;strong>Multi-language&lt;/strong> - 34+ language packs including English, 中文, and Português&lt;/li>
-&lt;li>&lt;strong>Multi-user&lt;/strong> - Each author gets their own profile page&lt;/li>
-&lt;li>&lt;strong>Privacy Pack&lt;/strong> - Assists with GDPR&lt;/li>
-&lt;li>&lt;strong>Stand Out&lt;/strong> - Bring your site to life with animation, parallax backgrounds, and scroll effects&lt;/li>
-&lt;li>&lt;strong>One-Click Deployment&lt;/strong> - No servers. No databases. Only files.&lt;/li>
-&lt;/ul>
-&lt;h2 id="themes">Themes&lt;/h2>
-&lt;p>Wowchemy and its templates come with &lt;strong>automatic day (light) and night (dark) mode&lt;/strong> built-in. Alternatively, visitors can choose their preferred mode - click the moon icon in the top right of the &lt;a href="https://academic-demo.netlify.com/" target="_blank" rel="noopener">Demo&lt;/a> to see it in action! Day/night mode can also be disabled by the site admin in &lt;code>params.toml&lt;/code>.&lt;/p>
-&lt;p>&lt;a href="https://wowchemy.com/docs/customization" target="_blank" rel="noopener">Choose a stunning &lt;strong>theme&lt;/strong> and &lt;strong>font&lt;/strong>&lt;/a> for your site. Themes are fully customizable.&lt;/p>
-&lt;h2 id="license">License&lt;/h2>
-&lt;p>Copyright 2016-present &lt;a href="https://georgecushen.com" target="_blank" rel="noopener">George Cushen&lt;/a>.&lt;/p>
-&lt;p>Released under the &lt;a href="https://github.com/wowchemy/wowchemy-hugo-themes/blob/master/LICENSE.md" target="_blank" rel="noopener">MIT&lt;/a> license.&lt;/p></description></item></channel></rss>
+&lt;p>The FMMD-S algorithm is available in &lt;a href="https://github.com/ananth1996/improved-fmmds/blob/main/fmmd/algorithms.py" target="_blank" rel="noopener">fmmd.algorithms&lt;/a> is the &lt;code>fmmd&lt;/code> function&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="n">fmmd&lt;/span>&lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">features&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">np&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">ndarray&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">ids&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">np&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">ndarray&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">groups&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">np&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">ndarray&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">k&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="nb">int&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">constraints&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">Dict&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="nb">int&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">Tuple&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="nb">int&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nb">int&lt;/span>&lt;span class="p">]],&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">eps&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="nb">float&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">time_limit&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="nb">int&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">300&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">verbose&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="nb">bool&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kc">False&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">parallel_dist_update&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="nb">bool&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kc">False&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">parallel_edge_creation&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="nb">bool&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kc">False&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">)&lt;/span> &lt;span class="o">-&amp;gt;&lt;/span> &lt;span class="n">Tuple&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="nb">set&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nb">float&lt;/span>&lt;span class="p">]:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;&amp;#34;&amp;#34;The implementation of the Fair Max-Min Diversification algorithm.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2"> First obtains a greedy solution ignoring fairness constrains. Then obtains a coreset by
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2"> getting greedy solutions in each group. Solves the MIS problem on the coreset.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2"> Args:
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2"> features (np.ndarray): The feature vectors of the items
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2"> ids (np.ndarray): The ids of the items
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2"> groups (np.ndarray): The group (int) of the items
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2"> k (int): The minimum number of total samples required
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2"> constraints (List[Tuple[int,int]]): The list of lower and upper limits on number of samples for each group
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2"> eps (float): The fraction to relax the diversity to get a solution.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2"> time_limit (int): The maximum number of seconds for Gurobi solver
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2"> verbose (bool, optional): Print many debug statements. Defaults to False.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2"> parallel_dist_update (bool, optional): Whether to update distances in parallel. Defaults to False.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2"> parallel_edge_creation (bool, optional): Whether to create coreset graph edges in parallel. Defaults to False.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2"> Returns:
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2"> Tuple[set,float]: Returns the solution as set of item ids and the solution diversity
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2"> &amp;#34;&amp;#34;&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="setup">Setup&lt;/h2>
+&lt;h3 id="python">Python&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">conda env create -n fmmd -f env.yaml
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="gurobi">Gurobi&lt;/h3>
+&lt;p>The FMMD-S algorithm uses &lt;a href="https://www.gurobi.com" target="_blank" rel="noopener">Gurobi&lt;/a> to solve the MIS problem as explained in the paper.&lt;/p>
+&lt;p>The gurobi optimizer can be used without a license for small datasets, but for larger datasets it is recommended to have an &lt;a href="https://www.gurobi.com/academia/academic-program-and-licenses/" target="_blank" rel="noopener">academic licence&lt;/a>.&lt;/p>
+&lt;h3 id="cython">Cython&lt;/h3>
+&lt;p>This library uses Cython to compile and parallelize several utility functions.&lt;/p>
+&lt;p>Run the following command to build the module:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">python setup.py build_ext --inplace
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>After building, the module is used like this:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">from&lt;/span> &lt;span class="nn">fmmd.parallel_utils&lt;/span> &lt;span class="n">pdist&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="nn">numpy&lt;/span> &lt;span class="k">as&lt;/span> &lt;span class="nn">np&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">X&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">np&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">random&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">random&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">1000&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="mi">512&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">d&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">pdist&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">X&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>The &lt;code>.pyx&lt;/code> is found in &lt;a href="https://github.com/ananth1996/improved-fmmds/blob/main/cython/parallel_utils.pyx" target="_blank" rel="noopener">ctython/parallel_utils.pyx&lt;/a> and can be modified to add additional metrics and functionalities.&lt;/p>
+&lt;h2 id="balanced-sampling">Balanced Sampling&lt;/h2>
+&lt;p>This library was developed specifically to perform balanced sampling.&lt;/p>
+&lt;p>Balanced sampling is when there is a need to uniformly sample from groups instead of the typical proportional
+sampling. Specifically, we wanted to perform balanced sampling when the distribution of groups was very skewed. This means that there are some groups with very few items and some groups with a lot of items. Furthermore, if &lt;code>min_group_size&lt;/code> is the size of the smallest group and &lt;code>k&amp;gt;min_group_size&lt;/code> then we might be forced to take all items from smaller groups.&lt;/p>
+&lt;p>For example, assume we have the following group sizes:&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align:right">group&lt;/th>
+&lt;th style="text-align:right">count&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align:right">1&lt;/td>
+&lt;td style="text-align:right">2&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:right">2&lt;/td>
+&lt;td style="text-align:right">5&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:right">3&lt;/td>
+&lt;td style="text-align:right">10&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:right">4&lt;/td>
+&lt;td style="text-align:right">200&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>Now, if we want to sample at least ten items uniformly &lt;code>k&amp;gt;=10&lt;/code> then, we would need to select all items from group 1 and 3 items from the remaining groups. This would result in &lt;code>k=11&lt;/code> items where we take a maximum of &lt;code>3&lt;/code> from each group. This is what the &lt;code>find_num_samples_per_group&lt;/code> method in the &lt;a href="https://github.com/ananth1996/improved-fmmds/blob/main/datasets/naive_balanced_sampling.py" target="_blank" rel="noopener">datasets/naive_balanced_sampling.py&lt;/a> does. It returns &lt;code>num_samples_per_group,total_number_of_samples&lt;/code> for a given group distribution and minimum number of samples.&lt;/p>
+&lt;h3 id="old-fmmd-s-implementation-bottlenecks">Old FMMD-S implementation Bottlenecks&lt;/h3>
+&lt;p>This sort of balanced sampling constraints causes several bottlenecks in the original FMMD-S implementation:&lt;/p>
+&lt;ol>
+&lt;li>When entire groups need to be selected, the diversity threshold is relaxed several times until the constraints is not &lt;code>under_capped&lt;/code>&lt;/li>
+&lt;li>The coreset graph typically is much larger as several groups are added directly. This results in a long time to compute the edges which satisfy the diversity constraints&lt;/li>
+&lt;li>When the ILP is infeasible steps 1 and 2 need to performed again&lt;/li>
+&lt;/ol>
+&lt;p>We fix these issues in the new implementations. Along with these fixes, a parallelization of several portions of the algorithm offer a general speedup compared the original implementation.&lt;/p>
+&lt;h2 id="speedup-over-original-implementation">Speedup over original Implementation&lt;/h2>
+&lt;p>Running the benchmark on the Census dataset from the original paper.
+For the full census dataset. &lt;code>k&lt;/code> is the number of samples and &lt;code>C&lt;/code> is the number of groups.&lt;/p>
+&lt;p>New and improved algorithm implementation&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">python census_single_solution.py -k&lt;span class="o">=&lt;/span>&lt;span class="m">10&lt;/span> -C&lt;span class="o">=&lt;/span>&lt;span class="m">2&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Original algorithm implementation&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">python census_single_solution.py -k&lt;span class="o">=&lt;/span>&lt;span class="m">10&lt;/span> -C&lt;span class="o">=&lt;/span>&lt;span class="m">2&lt;/span> --old
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align:left">k&lt;/th>
+&lt;th style="text-align:right">C&lt;/th>
+&lt;th style="text-align:right">Original (in seconds)&lt;/th>
+&lt;th style="text-align:right">New (in seconds)&lt;/th>
+&lt;th style="text-align:right">Relative Speedup&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align:left">10&lt;/td>
+&lt;td style="text-align:right">2&lt;/td>
+&lt;td style="text-align:right">112.67&lt;/td>
+&lt;td style="text-align:right">8.316&lt;/td>
+&lt;td style="text-align:right">13.55x&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">10&lt;/td>
+&lt;td style="text-align:right">7&lt;/td>
+&lt;td style="text-align:right">106.24&lt;/td>
+&lt;td style="text-align:right">8.256&lt;/td>
+&lt;td style="text-align:right">12.87x&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">50&lt;/td>
+&lt;td style="text-align:right">14&lt;/td>
+&lt;td style="text-align:right">474.152&lt;/td>
+&lt;td style="text-align:right">10.503&lt;/td>
+&lt;td style="text-align:right">45.14x&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">100&lt;/td>
+&lt;td style="text-align:right">14&lt;/td>
+&lt;td style="text-align:right">3670.781&lt;/td>
+&lt;td style="text-align:right">18.092&lt;/td>
+&lt;td style="text-align:right">202.90x&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>Experiments on an Apple MacBook Pro with a M2 Pro chip and 16GB RAM.&lt;/p>
+&lt;h2 id="when-to-parallelize">When to parallelize?&lt;/h2>
+&lt;p>The &lt;code>gonzales_algorithm&lt;/code> method found in &lt;a href="https://github.com/ananth1996/improved-fmmds/blob/main/fmmd/algorithms.py" target="_blank" rel="noopener">fmmd/algorithms.py&lt;/a> has the argument &lt;code>parallel_dist_update&lt;/code>. This argument will parallelize the update to the distance array. The &lt;code>gonzales_algoritm&lt;/code> is used in both step 1 and step 2 (see &lt;a href="#algorithm-overview">Algorithm Overview&lt;/a>) and can offer substantial speedups.&lt;/p>
+&lt;p>Therefore, to test the speed-up of one execution of the Gonzales algorithm, we executed the following for different number of items and feature dimensions:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="n">rng&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">np&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">random&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">default_rng&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">seed&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="mi">42&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">features&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">rng&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">random&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">size&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">n&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">d&lt;/span>&lt;span class="p">))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">ids&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">np&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">arange&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">n&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">gonzales_algorithm&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nb">set&lt;/span>&lt;span class="p">(),&lt;/span>&lt;span class="n">features&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">ids&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">k&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="mi">10&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">parallel_dist_update&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="kc">True&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c1"># with parallel &lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">gonzales_algorithm&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nb">set&lt;/span>&lt;span class="p">(),&lt;/span>&lt;span class="n">features&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">ids&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">k&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="mi">10&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">parallel_dist_update&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="kc">False&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c1"># with parallel &lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>The result for speed up is shown in the figure below:&lt;/p>
+&lt;p align="center">
+&lt;img src="./parallel_dist_update_speedup.png" alt="edges_speedup" width="500"/>
+&lt;/p>
+&lt;p>All blue regions are where the parallel version is slower than the sequential version and all the red regions are where the parallel regions are faster than the sequential versions.&lt;/p>
+&lt;p>Similarly, the &lt;code>get_coreset_graph&lt;/code> method in in &lt;a href="https://github.com/ananth1996/improved-fmmds/blob/main/fmmd/algorithms.py" target="_blank" rel="noopener">fmmd/algorithms.py&lt;/a> has an argument &lt;code>parallel_edges_creation&lt;/code>. This option uses the &lt;code>fmmd.parallel_utils.edges&lt;/code> method to parallelize step 3 of the algorithm as described in &lt;a href="#algorithm-overview">Algorithm Overview&lt;/a>. Again, the speed-up depends on the number of items in the coreset and the dimensionality of each item.&lt;/p>
+&lt;p>Therefore, to test the speed-up offered by the parallel version, we run the following two methods with random data of different coreset size and dimensions:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="n">rng&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">np&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">random&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">default_rng&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">seed&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="mi">42&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">features&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">rng&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">random&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">size&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">n&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">d&lt;/span>&lt;span class="p">))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">parallel_utils&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">edges&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">features&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="mf">0.01&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c1"># parallel edge creation&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">parallel_utils&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">edges_sequential&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">features&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="mf">0.01&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c1"># sequential edge creation&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>The results are shown below:&lt;/p>
+&lt;p align="center">
+&lt;img src="./parallel_edges_speedup.png" alt="edges_speedup" width="500"/>
+&lt;/p>
+All blue regions are where the parallel version is slower than the sequential version and all the red regions are where the parallel regions are faster than the sequential versions.
+&lt;blockquote>
+&lt;p>The number of coreset items depends on the data features, the number of samples &lt;code>k&lt;/code> and the constraints for the FMMD problem.&lt;/p>
+&lt;/blockquote>
+&lt;p>As discussed above, the parallel options are only useful when the number of dimensions increase.
+Therefore, using the full &lt;code>768&lt;/code> dimensional embeddings for the ECCO dataset, we select &lt;code>k=500&lt;/code> balanced samples as follows:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">python ecco_balanced_samples.py -k&lt;span class="o">=&lt;/span>&lt;span class="m">500&lt;/span> --eps&lt;span class="o">=&lt;/span>0.5
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>The &lt;code>fmmd&lt;/code> method found in &lt;a href="https://github.com/ananth1996/improved-fmmds/blob/main/fmmd/algorithms.py" target="_blank" rel="noopener">fmmd/algorithms.py&lt;/a> has two options to utilize multiple cores:&lt;/p>
+&lt;ol>
+&lt;li>&lt;code>--parallel-dist-update&lt;/code>: Update the solution distances in parallel for the Gonzales algorithm&lt;/li>
+&lt;li>&lt;code>--parallel-edge-creation&lt;/code>: Find the coreset edges in parallel which are below the diversity threshold&lt;/li>
+&lt;/ol>
+&lt;p>For the ECCO dataset and balanced sampling we observe the following trends:&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align:center">&lt;code>--parallel-dist-update&lt;/code>&lt;/th>
+&lt;th style="text-align:center">&lt;code>--parallel-edge-creation&lt;/code>&lt;/th>
+&lt;th style="text-align:right">Running Time&lt;/th>
+&lt;th style="text-align:right">Relative Speedup&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align:center">❌&lt;/td>
+&lt;td style="text-align:center">❌&lt;/td>
+&lt;td style="text-align:right">4444.224&lt;/td>
+&lt;td style="text-align:right">4.55&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:center">✅&lt;/td>
+&lt;td style="text-align:center">❌&lt;/td>
+&lt;td style="text-align:right">1781.913&lt;/td>
+&lt;td style="text-align:right">1.82&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:center">❌&lt;/td>
+&lt;td style="text-align:center">✅&lt;/td>
+&lt;td style="text-align:right">3625.860&lt;/td>
+&lt;td style="text-align:right">3.71&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:center">✅&lt;/td>
+&lt;td style="text-align:center">✅&lt;/td>
+&lt;td style="text-align:right">976.961&lt;/td>
+&lt;td style="text-align:right">1.00&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>The above ablation results indicate the majority of the speedup is gained from the parallel updates and that the speedup from parallel edge creation is relatively smaller potentially due to the number of coreset items.&lt;/p>
+&lt;h2 id="full-experiment-results">Full Experiment Results&lt;/h2>
+&lt;p>For the ECCO dataset, there are 4.2 million items and 137 groups with a very skewed distribution. The requirement was at least 3000 balanced samples. With the group distribution resulted in the following:&lt;/p>
+&lt;ol>
+&lt;li>Maximum of &lt;code>26&lt;/code> samples from each group&lt;/li>
+&lt;li>&lt;code>3063&lt;/code> total samples&lt;/li>
+&lt;/ol>
+&lt;p>The items are &lt;code>768&lt;/code> dimensional embedding which take 3min to load the 22GB vectors.&lt;/p>
+&lt;p>The FFMD-S solution takes 9250.9 seconds (2.5hrs).&lt;/p>
+&lt;p>The FMMD-S algorithm has the following stages:&lt;/p>
+&lt;ol>
+&lt;li>Finding an initial greedy solution without thinking of buckets: &lt;strong>1615.6 sec&lt;/strong>&lt;/li>
+&lt;li>Finding a core-set of the data from buckets starting from the initial samples : &lt;strong>1832.83 sec&lt;/strong>&lt;/li>
+&lt;li>Computing pair-wise distances and selecting ones which are below a diversity threshold: &lt;strong>5779.5 sec&lt;/strong>&lt;/li>
+&lt;li>Creating a coreset graph with nodes from 2 and edges from 3: &lt;strong>0.69 sec&lt;/strong>&lt;/li>
+&lt;li>Solving an Integer Linear Program of a coreset from 4 to get final solution: &lt;strong>17.27 sec&lt;/strong>&lt;/li>
+&lt;/ol>
+&lt;p>All these times are on a system with 40 cores and 80GB RAM (of which only 25GB was actually used)
+The main bottleneck as seen is step 3. This is because we end up with 274,398 items in the coreset leading to the computation of nearly 37B pair-wise distances. After step 3 we only have 253 edges below the required threshold, so the rest of the algorithm is very quick.&lt;/p>
+&lt;h2 id="limitations-and-future-updates">Limitations and Future Updates&lt;/h2>
+&lt;p>There are some limitations compared to the original implementations. These will be addressed as the need arises.&lt;/p>
+&lt;ol>
+&lt;li>Only supports L2 distance metric&lt;/li>
+&lt;li>No ability to generate multiple solutions in parallel to obtain the best overall diversity&lt;/li>
+&lt;/ol></description></item></channel></rss>
